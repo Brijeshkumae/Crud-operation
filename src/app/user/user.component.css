@@ -1,0 +1,11 @@
+header{
+    background-color: grey;
+    padding: 20px;
+}
+h2{color: white;}
+.error{
+    border: 1px solid red;
+}
+.hasError{
+    border: 1px solid red;
+}
