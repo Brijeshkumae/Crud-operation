@@ -1,0 +1,18 @@
+{
+  "user": [
+    {
+      "name": "vijay",
+      "email": "ftd",
+      "phone": "v",
+      "website": "ft",
+      "id": 1
+    },
+    {
+      "name": null,
+      "email": null,
+      "phone": null,
+      "website": null,
+      "id": 2
+    }
+  ]
+}
