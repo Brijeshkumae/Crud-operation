@@ -1,18 +1,68 @@
 {
   "user": [
     {
-      "name": "vijay",
-      "email": "ftd",
-      "phone": "v",
-      "website": "ft",
-      "id": 1
+      "id": 1,
+      "name": "vdtrxrd",
+      "phone": "7564545445",
+      "email": "vjcisc@gmail.com",
+      "website": "jgydftfd.com"
     },
     {
-      "name": null,
-      "email": null,
-      "phone": null,
-      "website": null,
-      "id": 2
+      "id": 2,
+      "name": "Brijesh Kumar",
+      "phone": "07505055315",
+      "email": "brijesk2@cisco.com",
+      "website": "vj.com"
+    },
+    {
+      "id": 3,
+      "name": "raju",
+      "phone": "07564545445",
+      "email": "vjcisc@gmail.com",
+      "website": "gs.com"
+    },
+    {
+      "id": 4,
+      "name": "bk",
+      "phone": "07564545445",
+      "email": "vjcisc@gmail.com",
+      "website": "vis.com"
+    },
+    {
+      "id": 5,
+      "name": "e",
+      "phone": "7505055315",
+      "email": "brije@cisco.com",
+      "website": "ddd"
+    },
+    {
+      "id": 6,
+      "name": "aman",
+      "phone": "9999999999",
+      "email": "aman@gmail.com",
+      "website": "ejidj.com"
+    },
+    {
+      "id": 7,
+      "name": "anas",
+      "phone": "8867888888",
+      "email": "vk@gmail.com",
+      "website": "str.com"
+    },
+    {
+      "id": 8,
+      "name": "vijay",
+      "phone": "7777755555",
+      "email": "vjj@gmail.com",
+      "website": "google.com"
+    },
+    {
+      "id": 9,
+      "name": "akansha",
+      "phone": "5643266832",
+      "email": "ak@gmail.com",
+      "website": "akku.com"
     }
   ]
+  
 }

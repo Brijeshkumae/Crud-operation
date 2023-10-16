@@ -1,0 +1,77 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="width: 100%; padding: 15px;"> 
+  <div class="container" >
+    <a class="navbar-brand" href="#">User</a>
+  </div>
+  <div class="col-sm-6">
+    <button routerLink="/user/login" class="btn btn-danger mx-2" style="float: right;">Logout</button>
+    <button class="btn btn-success"  style="float: right;" routerLink="/user/add-user">Add User</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6 offset-sm-9">
+      <input type="text" [(ngModel)]="searchQuery" placeholder="Search" />
+      <button (click)="clearSearch()">
+        
+      </button>
+      
+      <button class="btn btn-primary btn-sm ms-2" (click)="search()">Search</button>
+
+      <ul *ngIf="suggestions.length > 0" class="list-group mt-2">
+        <li *ngFor="let suggestion of suggestions" class="list-group-item">
+          {{ suggestion.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <table class="table">
+      <thead class="table-success">
+        <tr>
+          <th scope="col">Id</th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone</th>
+          <th scope="col">Email</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of allUsers 
+    let i = index">
+          <th scope="row">{{ item.id }}</th>
+          <td>{{ item.name }}</td>
+          <td>{{ item.phone }}</td>
+          <td>{{ item.email }}</td>
+          <td>
+            <a class="btn btn-primary" [routerLink]="['/user/edit',item.id]">Edit</a>
+            <button type="button" style="margin-left: 20px;"(click)="openDeleteModal(item.id)" class="btn btn-danger">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  
+
+  </div>
+
+
+  <!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Warning!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure to delete the item?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-danger" (click)="delete()">Confirm Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
