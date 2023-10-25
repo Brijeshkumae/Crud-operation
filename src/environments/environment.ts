@@ -1,4 +1,5 @@
 export const environment = {
+  production : false,
   firebase: {
     projectId: 'crud-operation-fa7c5',
     appId: '1:509996640294:web:e3cd6a7403ed1ecc095ee7',

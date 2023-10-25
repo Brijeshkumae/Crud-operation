@@ -1,41 +1,54 @@
-import { Injectable } from '@angular/core';
-import{HttpClient} from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
 import { User } from './user';
-import { Observable } from 'rxjs';
+import { Observable ,from} from 'rxjs';
+import { map } from 'rxjs/operators'; // Import 'map' from 'rxjs/operators'
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService  {
 
-  constructor(private http:HttpClient) { }
+  constructor(private readonly angularFireStore: AngularFirestore) { }
 
-  get():Observable<any>{
-    return this.http.get<User[]>('http://localhost:3000/user');
-  }
-
-  searchByName(name: string): Observable<User[]> {
-    const params = {
-      name_like: name 
-    };
+  saveUser(user: User) {
+    const userData = JSON.parse(JSON.stringify(user));
+    return this.angularFireStore.collection("user").add(userData).then(docRef=>{
+      userData.id=docRef.id;
+    docRef.update(userData);
+    })
   
-    return this.http.get<User[]>('http://localhost:3000/user', { params });
   }
 
-  create(payload: User) {
-    return this.http.post<User>('http://localhost:3000/user', payload);
+  
+  getAllUser(): Observable<User[]> {
+    const userList = this.angularFireStore
+      .collection<User>("user", (ref) => ref.orderBy("name"))
+      .snapshotChanges()
+      .pipe(
+        map((actions) => {
+          return actions.map((c) => {
+            const data = c.payload.doc.data();
+            const userId = c.payload.doc.id;
+            return { userId, ...data };
+          });
+        })
+      );
+    return userList;
   }
 
-  getById(id: number) {
-    return this.http.get<User>(`http://localhost:3000/user/${id}`);
-   }
-    
-   update(payload:User){
-    return this.http.put(`http://localhost:3000/user/${payload.id}`,payload);
-   }
+  getUserId(userId: string): Observable<User | null> {
+    return this.angularFireStore.collection("user").doc(userId).valueChanges() as Observable<User | null>;
+  }
+  
 
-   delete(id:number){
-    return this.http.delete<User>(`http://localhost:3000/user/${id}`);
- }
-   
+  update(userId: string, user: User) {
+    const userData = JSON.parse(JSON.stringify(user));
+    return this.angularFireStore.collection("user").doc(userId).update(userData);
+  }
+
+  deleteUser(userId: string): Observable<void> {
+    return from(this.angularFireStore.collection("user").doc(userId).delete());
+  }
+  
 }

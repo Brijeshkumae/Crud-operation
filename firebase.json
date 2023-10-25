@@ -1,9 +1,0 @@
-{
-  "hosting": [
-    {
-      "target": "crud-operation",
-      "source": ".",
-      "frameworksBackend": {}
-    }
-  ]
-}
