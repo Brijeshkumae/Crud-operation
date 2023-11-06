@@ -1,14 +1,16 @@
 .card {
     border: none;
     width: 500px;
-   
     padding: 40px;
-    top: 50%;
+    top: 70%;
     left: 100%;
     
-    transform: translate(-40%, -40%);
-    background-color: hsla(205, 46%, 30%, 1);
-    background: linear-gradient(90deg, hsla(205, 46%, 30%, 1)0%, hsla(205, 46%, 30%, 1)100%);
+    transform: translate(-50%, -50%);
+    background-color: rgb(183, 181, 157);
+    background: linear-gradient(90deg, rgb(218, 220, 214)0%, rgb(178, 188, 187)100%);
+    }
+    .text-dark h5{
+        color:black;
     }
     
     .card h1,h6{
@@ -16,4 +18,7 @@
     }
     label{
         color: azure;
+    }
+    .form-label{
+        color:black;
     }

@@ -1,46 +1,71 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary" style="width: 100%; padding: 15px;"> 
+
+<nav class="navbar navbar-expand-lg navbar navbar-dark" > 
   <div class="container" >
     <a class="navbar-brand" href="#">User</a>
   </div>
   <div class="col-sm-6">
-    <button routerLink="/login" class="btn btn-danger mx-2" style="float: right;">Logout</button>
-    <button class="btn btn-success"  style="float: right;" routerLink="/userform/add">Add User</button>
+    <ul class ="navbar-nav mb-1 mb-log-0">
+      <a routerLink="/login" class="nav-link active" >Logout</a>
+    <a class="nav-link active"   routerLink="/userform/add">Add User</a>
+    </ul>
+    
   </div>
+  
 </nav>
+<h1 class="display-4">Employee Data</h1>
 
+<p>
+  This component demonstrates fetching Employee data from Google cloud
+  firestore.
+</p>
 
 <ng-template #loading>
   <p><em>Loading...</em></p>
 </ng-template>
 
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <form (ngSubmit)="search()" #searchForm="ngForm" >
+      <div class="input-group">
+        <input type="text" class="form-control custom-input" placeholder="Search by Name" [(ngModel)]="searchQuery" name="searchQuery"  />
+        <span class="input-group-text">
+          <i class="fa fa-times" *ngIf="clearIcon"(click)="clearSearch()"></i>
+        </span>
+      </div>
+    </form>
+	
+  </div>
+</div>
 
 
 <ng-container *ngIf="userData$ | async as userData; else loading">
-  <!--{{userData.userList | json }}-->
+  
     <ng-container *ngIf="userData.userList ; else noData ">
 
 
 
       <table class="table"  shadow table-striped align-middle table-bordered>
-        <thead class=" table-success">
+        <thead class=" table-info">
           <tr class=" text-center">
-            <!-- <th >Id</th> -->
+            
             <th >Name</th>
+            <th >Gender</th>
             <th >Phone</th>
             <th >Email</th>
-            <th>Website</th>
+            <th>Department</th>
             <th *ngIf="userData.appUser"> Actions </th>
           </tr>
         </thead>
         <tbody class="text-center">
-          <tr  *ngFor="let user of userData.userList"
+          <tr  *ngFor="let user of userData.userList  | paginate: { itemsPerPage: 10, currentPage: p }"
       >
       
-            <!-- <th >{{ user.id }}</th> -->
+            
             <td>{{ user.name }}</td>
+            <td>{{user.gender}}</td>
             <td>{{ user.phone }}</td>
             <td>{{ user.email }}</td>
-            <td>{{ user.website }}</td>
+            <td>{{ user.department }}</td>
             <td *ngIf="userData.appUser">
 
 
@@ -56,7 +81,11 @@
           </tr>
         </tbody>
       </table>
+      <div class="d-flex justify-content-center">
+        <pagination-controls (pageChange)="p = $event" previousLabel="Previous" nextLabel="Next"></pagination-controls>
+      </div>
     </ng-container>
+
     <ng-template #noData>
       <div class="d-flex justify-content-center">
         <h4>No records found</h4>

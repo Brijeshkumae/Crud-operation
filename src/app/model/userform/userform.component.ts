@@ -1,6 +1,6 @@
 import { Component,OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from 'src/app/user/user.service';
+import { UserService } from 'src/app/shared/user.service';
 import { User } from 'src/app/user/user';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
@@ -15,7 +15,7 @@ export class UserformComponent implements OnInit {
 
   userForm!: FormGroup;
   submitted = false;
-  isEdit = false; // A flag to determine if it's an edit mode
+  isEdit = false; 
   userId: string='';
   user = new User();
 
@@ -30,8 +30,9 @@ export class UserformComponent implements OnInit {
                   userId: [''],
                   name: ['', Validators.required],
                   phone: ['', [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
+                  gender:['',Validators.required],
                   email: ['', [Validators.required, Validators.email]],
-                  website: ['', Validators.required]
+                  department : ['', Validators.required]
                 });
 
                 this.route.params.subscribe(params => {
@@ -44,9 +45,10 @@ export class UserformComponent implements OnInit {
                         this.userForm.setValue({
                           userId: user.id,
                           name: user.name,
+                          gender: user.gender,
                           phone: user.phone,
                           email: user.email,
-                          website: user.website
+                          department: user.department
                         });
                       }
                     });

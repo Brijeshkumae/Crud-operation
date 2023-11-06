@@ -1,9 +1,10 @@
 export class User {
     id! : string;
     name!: string;
+    gender! : string;
     phone!:number;
     email!:string;
-    website!:string;
+    department!:string;
 //     constructor(){
 //         // this.id = 0;
 //         // this.name = '';

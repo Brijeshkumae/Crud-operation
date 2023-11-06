@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { User } from './user';
+import { User } from '../user/user';
 import { Observable ,from} from 'rxjs';
 import { map } from 'rxjs/operators'; // Import 'map' from 'rxjs/operators'
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -50,5 +50,21 @@ export class UserService  {
   deleteUser(userId: string): Observable<void> {
     return from(this.angularFireStore.collection("user").doc(userId).delete());
   }
+
+  searchByName(name: string): Observable<User[]> {
+    return this.angularFireStore
+      .collection<User>('user', (ref) => ref.where('name', '>=', name).where('name', '<=', name + '\uf8ff'))
+      .snapshotChanges()
+      .pipe(
+        map((actions) => {
+          return actions.map((c) => {
+            const data = c.payload.doc.data();
+            const userId = c.payload.doc.id;
+            return { userId, ...data };
+          });
+        })
+      );
+  }
+
   
 }

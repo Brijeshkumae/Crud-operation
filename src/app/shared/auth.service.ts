@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import firebase from "firebase/compat/app";
 import { GoogleAuthProvider, GithubAuthProvider } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
@@ -14,25 +14,24 @@ export class AuthService {
 
 
   constructor(private fireauth  : AngularFireAuth, private router : Router,
-    private afs : AngularFirestore) { }
+    private afs : AngularFirestore,  private readonly route: ActivatedRoute) { }
+
+ //login method
+ login(email :  string, passsword : string){
+  this.fireauth.signInWithEmailAndPassword(email,passsword).then(() =>{
+    localStorage.setItem('token','true');
 
 
-  //login method
-  login(email :  string, passsword : string){
-    this.fireauth.signInWithEmailAndPassword(email,passsword).then(() =>{
-      localStorage.setItem('token','true');
-
-
-      this.fireauth
-      .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((credential) => this.updateUserData(credential.user));
-      
-      this.router.navigate(['/home'])
-    }, err =>{
-      alert('something went wrong');
-      this.router.navigate(['/login']);
-    })
-  }
+    this.fireauth
+    .signInWithPopup(new firebase.auth.GoogleAuthProvider())
+    .then((credential) => this.updateUserData(credential.user));
+    
+    this.router.navigate(['/home'])
+  }, err =>{
+    alert('something went wrong');
+    this.router.navigate(['/login']);
+  })
+}
 
 
  
@@ -76,7 +75,7 @@ googlesignIn(){
 }
 
 
-private updateUserData(user : any) {
+private updateUserData(user : any ) {
   const userRef = this.afs.doc(`appusers/${user.id}`);
   const data = {
     name: user.displayName,

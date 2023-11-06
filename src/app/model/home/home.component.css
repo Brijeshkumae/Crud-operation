@@ -1,0 +1,27 @@
+.thcol{
+    background-color: aquamarine;
+}
+
+.col-sm-6 button{
+    float: right;
+}
+
+
+.input-group-text{
+    border: white;
+    background-color: white;
+   
+}
+
+
+.navbar{
+    background-color: #17a2b8;
+    width: 100%;
+     padding: 15px;
+}
+.col-sm-6 ul,li{
+    float: right;
+}
+.table-success {
+color: blanchedalmond;
+}

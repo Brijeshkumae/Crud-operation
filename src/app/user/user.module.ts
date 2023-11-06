@@ -8,13 +8,21 @@ import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 
 import { UserformComponent } from '../model/userform/userform.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from '../model/home/home.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NavBarComponent } from '../model/nav-bar/nav-bar.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+
+
 @NgModule({
   declarations: [
     SignupComponent,
     LoginComponent,
     HomeComponent,
     UserformComponent,
+   
 
   ],
   imports: [
@@ -23,10 +31,19 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      closeButton:true,
-      timeOut:5000,
-      progressBar:true
-    })
+      positionClass:"toast-top-right",
+      preventDuplicates:true,
+      timeOut:3000,
+     
+    }),
+    NgxPaginationModule,
+    ToastrModule,
+    MatInputModule,
+    MatFormFieldModule, 
+    MatIconModule,
+   
+
+    
   ]
 })
 export class UserModule { }

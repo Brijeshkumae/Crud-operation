@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router'; 
 import { LoginComponent } from './user/login/login.component';
 import { SignupComponent } from './user/signup/signup.component';
-import { HomeComponent } from './user/home/home.component';
+import { HomeComponent } from './model/home/home.component';
 import { UserformComponent } from './model/userform/userform.component'; 
+import {  authGuard } from './guards/auth.guard'
+
 
 
 const routes: Routes = [
-  {path: '', redirectTo:'login', pathMatch:'full'},
+  {path: '', redirectTo:'home', pathMatch:'full'},
   {
     path:'login',
     component:LoginComponent
@@ -18,21 +20,28 @@ const routes: Routes = [
   },
   {
     path:'home',
-    component:HomeComponent
+    component:HomeComponent,
+    canActivate:[authGuard]
+    
   },
   
   {
     path:'userform/add',
-    component:UserformComponent
+    component:UserformComponent,
+    canActivate:[authGuard]
+    
   },
   {
     path:'userform/edit/:id',
-    component:UserformComponent
+    component:UserformComponent,
+    canActivate:[authGuard]
+    
   }
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+ 
 })
 export class AppRoutingModule { }
