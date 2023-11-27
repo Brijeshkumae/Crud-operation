@@ -24,7 +24,7 @@ import { environment } from 'src/environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    NavBarComponent
+   
   ],
   imports: [
     BrowserModule,

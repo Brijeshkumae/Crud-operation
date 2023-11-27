@@ -1,15 +1,25 @@
-import { CanActivateFn } from '@angular/router';
-import { User } from '../user/user';
-import firebase from 'firebase/compat/app';
+import {
+  CanActivateFn,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router
+} from '@angular/router';
+import { AuthService } from '../shared/auth.service';
+import { inject } from '@angular/core';
 
-export const authGuard: CanActivateFn = (route, state) => {
- 
-     const login = route.url[0].path;
-  if( login == 'home'){
-    return true;
-  } else {
-    alert('access denied');
-    return false;
-  }
- 
+export const authGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot
+): boolean | Promise<boolean> => {
+  const authService: AuthService = inject(AuthService); 
+  const router: Router = inject(Router);
+
+  return authService.isLoggedIn().then((authenticated: boolean) => {
+    if (authenticated) {
+      return true;
+    } else {
+      router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      return false;
+    }
+  });
 };

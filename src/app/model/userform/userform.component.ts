@@ -65,12 +65,12 @@ export class UserformComponent implements OnInit {
                 } else {
                   if (this.isEdit) {
                     this.userService.update(this.userId, user).then(() => {
-                      this.showSuccess('User Data Successfully Updated', user.name);
+                      // this.showSuccess('User Data Successfully Updated', user.name);
                       this.router.navigate(['home']);
                     });
                   } else {
                     this.userService.saveUser(user).then(() => {
-                      this.showSuccess('User Data Successfully Added', user.name);
+                       this.showSuccess('User Data Successfully Added', user.name);
                       this.router.navigate(['home']);
                     });
                   }
@@ -83,6 +83,7 @@ export class UserformComponent implements OnInit {
             
               cancelEdit() {
                 this.router.navigate(['home']);
+                
               }
             
 }

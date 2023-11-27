@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
     LoginComponent,
     HomeComponent,
     UserformComponent,
+    NavBarComponent
    
 
   ],

@@ -7,11 +7,8 @@
 }
 
 
-.input-group-text{
-    border: white;
-    background-color: white;
-   
-}
+
+
 
 
 .navbar{
@@ -24,4 +21,10 @@
 }
 .table-success {
 color: blanchedalmond;
+}
+
+.row{
+    float: right;
+    
+    margin-bottom: 10px;
 }

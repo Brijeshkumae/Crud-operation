@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import firebase from "firebase/compat/app";
 import { GoogleAuthProvider, GithubAuthProvider } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Injectable({
@@ -13,13 +14,30 @@ export class AuthService {
   appUser$ = this.fireauth.authState;
 
 
+  // const returnUrl: string | null  =
+  //     this.route.snapshot.queryParamMap.get("returnUrl") || this.router.url;
+
+  //     localStorage.setItem("returnurl" returnUrl ) ;
+
   constructor(private fireauth  : AngularFireAuth, private router : Router,
-    private afs : AngularFirestore,  private readonly route: ActivatedRoute) { }
+    private afs : AngularFirestore,  private readonly route: ActivatedRoute,
+    private toast : ToastrService) { }
+
+
+
+    isLoggedIn(): Promise<boolean> {
+      return new Promise((resolve) => {
+        this.fireauth.authState.subscribe((user: firebase.User | null) => {
+          resolve(user !== null);
+        });
+      });
+    }
+
 
  //login method
  login(email :  string, passsword : string){
   this.fireauth.signInWithEmailAndPassword(email,passsword).then(() =>{
-    localStorage.setItem('token','true');
+    localStorage.setItem('token','false');
 
 
     this.fireauth
@@ -28,7 +46,7 @@ export class AuthService {
     
     this.router.navigate(['/home'])
   }, err =>{
-    alert('something went wrong');
+    this.toast.error('something went wrong');
     this.router.navigate(['/login']);
   })
 }
@@ -40,10 +58,10 @@ export class AuthService {
   // signup method
   signup(email: string, passsword : string) {
     this.fireauth.createUserWithEmailAndPassword(email, passsword).then(() => {
-      alert('Registration Successful');
+      this.toast.error('Registration Successful');
       this.router.navigate(['/login']);
     }, err => {
-      alert(err.message);
+      this.toast.error(err.message);
       this.router.navigate(['/signup']);
     })
   }
@@ -53,7 +71,7 @@ export class AuthService {
   logout() {
     console.log("Logging out...");
     this.fireauth.signOut().then(() => {
-      console.log("Successfully signed out.");
+      this.toast.success("Successfully signed out.");
       localStorage.removeItem('token');
       this.router.navigate(["/login"]);
     }).catch(err => {
@@ -70,7 +88,7 @@ googlesignIn(){
  this.router.navigate(['/home']);
  localStorage.setItem('token','true');
   }, err => {
-    alert(err.message)
+    this.toast.error(err.message)
   })
 }
 

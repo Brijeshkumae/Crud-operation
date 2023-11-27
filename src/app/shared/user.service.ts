@@ -9,7 +9,9 @@ import { AngularFirestore } from '@angular/fire/compat/firestore';
 })
 export class UserService  {
 
-  constructor(private readonly angularFireStore: AngularFirestore) { }
+  constructor(private readonly angularFireStore: AngularFirestore) {
+    
+   }
 
   saveUser(user: User) {
     const userData = JSON.parse(JSON.stringify(user));
@@ -19,7 +21,7 @@ export class UserService  {
     })
   
   }
-
+ 
   
   getAllUser(): Observable<User[]> {
     const userList = this.angularFireStore

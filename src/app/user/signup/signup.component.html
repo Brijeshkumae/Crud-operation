@@ -3,7 +3,7 @@
       <div class="col-md-6">
           <div class="card">
               <div class="text-center">
-                  <h1 class="text-dark text-muted">signup</h1>
+                  <h1 class="text-dark ">signup</h1>
                   
                   <form  >
                       <div class="mb-3">
@@ -14,7 +14,7 @@
                       <div class="mb-3">
                         <label for="exampleInputPassword1" class="form-label">Password</label>
                         <input  matInput [type]="hide? 'password' : 'text'" class="form-control" name="password" [(ngModel)]="password">
-                        <mat-icon (click)="hide = !hide" matSuffix>{{hide? 'visibility_off' : 'visibility'}}</mat-icon>
+                        <!-- <mat-icon (click)="hide = !hide" matSuffix>{{hide? 'visibility_off' : 'visibility'}}</mat-icon> -->
                       </div>
                       <button type="button" class="btn btn-info mb-2" (click)="signup()">signup</button>
                       <div class="row">

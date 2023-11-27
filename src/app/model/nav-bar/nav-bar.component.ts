@@ -18,4 +18,8 @@ constructor(private readonly authService : AuthService){
     this.authService.googlesignIn();
   }
 
+  logout(){
+    this.authService.logout();
+  }
+
 }

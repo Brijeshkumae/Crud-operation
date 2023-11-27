@@ -2,6 +2,7 @@
 import { Component ,OnInit} from '@angular/core';
 import { FormGroup,FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 import { AuthService } from 'src/app/shared/auth.service';
 
@@ -16,7 +17,8 @@ export class SignupComponent implements OnInit {
   password : string = '';
   hide: boolean = true;
   constructor(private router:Router,
-    private auth : AuthService){}
+    private auth : AuthService,
+    private toast : ToastrService){}
 
 
   ngOnInit(): void {
@@ -26,13 +28,13 @@ export class SignupComponent implements OnInit {
   pass: FormControl = new FormControl('',Validators.required)
   signup(){
     if(this.email == ''){
-      alert('please enter email');
+      this.toast.error('please enter email');
       return;
     }
 
 
     if(this.password == ''){
-      alert('please enter password');
+      this.toast.error('please enter password');
       return;
 
 

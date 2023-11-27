@@ -2,12 +2,12 @@ import { Component ,OnInit} from '@angular/core';
 
 import { UserService } from '../../shared/user.service';
 import { ToastrService } from 'ngx-toastr';
-import{Router} from '@angular/router';
+import{NavigationStart, Router} from '@angular/router';
 import { AuthService } from 'src/app/shared/auth.service';
-import { combineLatest,of } from "rxjs";
+import { combineLatest, of, Subscription } from "rxjs";
 import { map } from "rxjs/operators";
 import { FormControl } from '@angular/forms';
-
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -15,13 +15,20 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
+
+  private mySubscription: Subscription | undefined;
   private readonly user$ = this.userService.getAllUser();
   private readonly appUser$ = this.authService.appUser$;
+  
 
   searchQuery: string = '';
   clearIcon: boolean = false; 
-  p: number = 1; 
-  itemsPerPage: number = 10;
+  p: number = 1;
+  itemsPerPage: number = 5;
+
+ 
+
+ 
 
   userData$ = combineLatest([this.user$, this.appUser$]).pipe(
     map(([user, appUser]) => ({
@@ -35,14 +42,20 @@ export class HomeComponent implements OnInit{
   constructor(private userService: UserService,
               private toast:ToastrService,
               private router:Router,
-              private authService : AuthService){
+              private authService : AuthService,
+              private location: Location,){
 
                 
               }
   ngOnInit(): void {
-    
+    this.loadData();
+    this.disableNavigation();
      
+   
   }
+  
+
+
   searchControl = new FormControl();
 
   delete(userId: string) {
@@ -59,27 +72,60 @@ export class HomeComponent implements OnInit{
     }
   }
   
-search() {
+  search() {
   if (this.searchQuery.trim() !== '') {
-  this.userService.getAllUser().subscribe((data) => {
-  const searchQuery = this.searchQuery.toLowerCase().trim();
-  const filteredUsers = data.filter((user) =>
-  user.name.toLowerCase().includes(searchQuery)
-  );
-  
-  this.userData$ = combineLatest([of(filteredUsers), this.appUser$]).pipe(
-  map(([user, appUser]) => ({
-    userList: user,
-    appUser,
-  }))
-  );
-  });
+    this.userService.getAllUser().subscribe((data) => {
+      const searchQuery = this.searchQuery.toLowerCase().trim();
+      const filteredUsers = data
+        .filter((user) => user.name.toLowerCase().includes(searchQuery))
+        .sort((a, b) => a.name.localeCompare(b.name)); // Sort users in ascending order based on name
+
+      this.userData$ = combineLatest([of(filteredUsers), this.appUser$]).pipe(
+        map(([user, appUser]) => ({
+          userList: user,
+          appUser,
+        }))
+      );
+
+      this.clearIcon = true; // Move inside the if block
+    });
+  } else {
+    this.clearIcon = false; // If search query is empty, clearIcon should be false
   }
-    this.clearIcon = true;
-  
+}
+
+
+  ngOnDestroy(): void {
+    if (this.mySubscription) {
+      this.mySubscription.unsubscribe();
+    }
+  }
+
+
+  private disableNavigation(): void {
+    this.mySubscription = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        this.location.forward();
+      }
+    });
   }
     
-    
+  loadData() {
+    this.userService.getAllUser().subscribe(users => {
+      // Sort users by name in ascending order
+      const sortedUsers = users.sort((a, b) => a.name.localeCompare(b.name));
+  
+      this.userData$ = combineLatest([of(sortedUsers), this.appUser$]).pipe(
+        map(([user, appUser]) => ({
+          userList: user,
+          appUser,
+        }))
+      );
+    });
+  }
+
+
+
   clearSearch() {
     this.searchQuery = '';
     this.clearIcon = false;
@@ -91,11 +137,29 @@ search() {
   );
   }
   
-  
+
+ 
+
+ logout(){
+  this.authService.logout();
+
+ }
+
+ getPages(userListLength: number, itemsPerPage: number): number[] {
+  const pageCount = Math.ceil(userListLength / itemsPerPage);
+  return Array.from({ length: pageCount }, (_, index) => index + 1);
+}
+
+
+
+
+
 
 
   public showError(){
     this.toast.error('Data Has Deleted','Delete message');
   }
 
+
+  
 }
