@@ -10,7 +10,7 @@ import {  authGuard } from './guards/auth.guard'
 // const redirectUnauthorizedToLogin = {} => redirectUnauthorizedTo(['/login']);
 
 const routes: Routes = [
-  {path: '', redirectTo:'home', pathMatch:'full'},
+  {path: '', redirectTo:'login', pathMatch:'full'},
   {
     path:'login',
     component:LoginComponent,

@@ -17,9 +17,6 @@
     <form (ngSubmit)="search()" #searchForm="ngForm" >
       <div class="input-group">
         <input type="search" class="form-control custom-input" placeholder="Search by Name" [(ngModel)]="searchQuery" name="searchQuery"  (click)="clearSearch()" />
-        
-         
-        
       </div>
     </form>
 	
@@ -37,11 +34,41 @@
         <thead class=" table-info">
           <tr class=" text-center">
             
-            <th >Name</th>
-            <th >Gender</th>
-            <th >Phone</th>
-            <th >Email</th>
-            <th>Department</th>
+            <th>
+              <div>
+                <span class="header-content">Name&nbsp;</span>
+                <i class="fa fa-sort" (click)="sortData('name')"></i>
+                <span *ngIf="sortColumn === 'name'"></span>
+              </div>
+            </th>
+            <th>
+              <div>
+                <span class="header-content">Gender&nbsp;</span>
+                <i class="fa fa-sort" (click)="sortData('gender')"></i>
+                <span *ngIf="sortColumn === 'gender'"></span>
+              </div>
+            </th>
+            <th>
+              <div>
+                <span class="header-content">Phone&nbsp;</span>
+                <i class="fa fa-sort" (click)="sortData('phone')"></i>
+                <span *ngIf="sortColumn === 'phone'"></span>
+              </div>
+            </th>
+            <th>
+              <div>
+                <span class="header-content">Email&nbsp;</span>
+                <i class="fa fa-sort" (click)="sortData('email')"></i>
+                <span *ngIf="sortColumn === 'email'"></span>
+              </div>
+            </th>
+            <th>
+              <div>
+                <span class="header-content">Department&nbsp;</span>
+                <i class="fa fa-sort" (click)="sortData('department')"></i>
+                <span *ngIf="sortColumn === 'department'"></span>
+              </div>
+            </th>
             <th *ngIf="userData.appUser"> Actions </th>
           </tr>
         </thead>

@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit{
   clearIcon: boolean = false; 
   p: number = 1;
   itemsPerPage: number = 5;
+  sortDirection: boolean = false; 
+  sortColumn: string = '';
 
  
 
@@ -38,6 +40,7 @@ export class HomeComponent implements OnInit{
     }))
     
   );
+  
   
   constructor(private userService: UserService,
               private toast:ToastrService,
@@ -94,7 +97,19 @@ export class HomeComponent implements OnInit{
   }
 }
 
+private sortDataArray(dataArray: any[], columnName: string, sortDirection: boolean): any[] {
+  return dataArray.sort((a, b) => {
+    const valueA = a[columnName];
+    const valueB = b[columnName];
 
+
+    if (typeof valueA === 'string' && typeof valueB === 'string') {
+      return sortDirection ? valueA.localeCompare(valueB) : valueB.localeCompare(valueA);
+    } else {
+      return sortDirection ? valueA - valueB : valueB - valueA;
+    }
+  });
+}
   ngOnDestroy(): void {
     if (this.mySubscription) {
       this.mySubscription.unsubscribe();
@@ -112,8 +127,11 @@ export class HomeComponent implements OnInit{
     
   loadData() {
     this.userService.getAllUser().subscribe(users => {
-      // Sort users by name in ascending order
-      const sortedUsers = users.sort((a, b) => a.name.localeCompare(b.name));
+      let sortedUsers = users.slice(); 
+  
+      if (this.sortColumn) {
+        sortedUsers = this.sortDataArray(sortedUsers, this.sortColumn, this.sortDirection);
+      }
   
       this.userData$ = combineLatest([of(sortedUsers), this.appUser$]).pipe(
         map(([user, appUser]) => ({
@@ -123,6 +141,7 @@ export class HomeComponent implements OnInit{
       );
     });
   }
+  
 
 
 
@@ -151,8 +170,16 @@ export class HomeComponent implements OnInit{
 }
 
 
+sortData(column: string): void {
+  if (this.sortColumn === column) {
+    this.sortDirection = !this.sortDirection;
+  } else {
+    this.sortColumn = column;
+    this.sortDirection = false;
+  }
 
-
+  this.loadData();
+}
 
 
 
